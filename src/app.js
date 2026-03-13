@@ -1,16 +1,16 @@
-// ===== ColorLens — Main Application Logic =====
+// ColorLens — Main Application Logic
 // All color conversion, picking, and UI logic
 
 (function() {
     'use strict';
 
-    // ===== STATE =====
+    // STATE
     let currentColor = { r: 108, g: 92, b: 231 }; // Default: #6C5CE7
     let palette = JSON.parse(localStorage.getItem('colorlens_palette') || '[]');
     let currentHarmony = 'complementary';
     let currentExportFormat = 'css';
 
-    // ===== DOM REFERENCES =====
+    // DOM REFERENCES
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -82,7 +82,7 @@
     // Logo
     const logoIcon = $('#logoIcon');
 
-    // ===== COLOR CONVERSION UTILITIES =====
+    // COLOR CONVERSION UTILITIES
 
     function rgbToHex(r, g, b) {
         return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
@@ -160,7 +160,7 @@
         };
     }
 
-    // ===== CONTRAST RATIO =====
+    // CONTRAST RATIO
 
     function luminance(r, g, b) {
         const [rs, gs, bs] = [r, g, b].map(v => {
@@ -178,7 +178,7 @@
         return (lighter + 0.05) / (darker + 0.05);
     }
 
-    // ===== COLOR HARMONIES =====
+    // COLOR HARMONIES
 
     function getHarmonies(r, g, b, type) {
         const hsl = rgbToHsl(r, g, b);
@@ -212,7 +212,7 @@
         });
     }
 
-    // ===== UI UPDATE =====
+    // UI UPDATE
 
     function updateUI() {
         const { r, g, b } = currentColor;
@@ -314,7 +314,7 @@
         updateUI();
     }
 
-    // ===== TAB NAVIGATION =====
+    // TAB NAVIGATION
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -327,7 +327,7 @@
         });
     });
 
-    // ===== SCREEN COLOR PICKER (EyeDropper API) =====
+    // SCREEN COLOR PICKER (EyeDropper API)
 
     pickFromScreenBtn.addEventListener('click', async () => {
         if (!window.EyeDropper) {
@@ -350,7 +350,7 @@
         }
     });
 
-    // ===== IMAGE COLOR PICKER =====
+    // IMAGE COLOR PICKER
 
     // Click to upload
     imageUploadZone.addEventListener('click', (e) => {
@@ -459,7 +459,7 @@
         imageFileInput.value = '';
     });
 
-    // ===== MANUAL ENTRY =====
+    // MANUAL ENTRY
 
     applyHexBtn.addEventListener('click', () => {
         let val = hexInput.value.replace('#', '').trim();
@@ -501,7 +501,7 @@
         setColor(rgb.r, rgb.g, rgb.b);
     });
 
-    // ===== HARMONY TABS =====
+    // HARMONY TABS
 
     $$('.harmony-tab').forEach(tab => {
         tab.addEventListener('click', () => {
@@ -512,7 +512,7 @@
         });
     });
 
-    // ===== COPY BUTTONS =====
+    // COPY BUTTONS
 
     $$('.copy-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -551,7 +551,7 @@
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    // ===== PALETTE =====
+    // PALETTE
 
     function renderPalette() {
         if (palette.length === 0) {
@@ -610,7 +610,7 @@
         showToast('Palette cleared');
     });
 
-    // ===== EXPORT =====
+    // EXPORT
 
     exportPaletteBtn.addEventListener('click', () => {
         if (palette.length === 0) {
@@ -669,7 +669,7 @@
         copyToClipboard(exportCode.textContent);
     });
 
-    // ===== KEYBOARD SHORTCUTS =====
+    // KEYBOARD SHORTCUTS
 
     document.addEventListener('keydown', (e) => {
         // Escape to close modal
@@ -683,7 +683,7 @@
         }
     });
 
-    // ===== INITIALIZATION =====
+    // INITIALIZATION
 
     function init() {
         updateUI();
